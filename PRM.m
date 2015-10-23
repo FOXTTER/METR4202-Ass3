@@ -1,11 +1,13 @@
-clear
-raw = imread('hand_mask.png');
-hand = rgb2gray(raw) > 10;
+function [pathPoints] = PRM(imgRaw, raw)
+hand = raw;
+se = strel('disk',2);
+hand = imdilate(hand,se);
 n = 200;
 start = [1210 10];
 stop = [1710 1040];
+disp('Choose two points with mouse');
 figure
-imshow(hand);
+imshow(imgRaw);
 [x, y] = getpts;
 start(1) = x(1);
 start(2) = y(1);
@@ -17,6 +19,10 @@ samples(2) = struct('pt', stop, 'pre', []);
 for i = 3 : n
     x = round(random('unif',1, size(hand,2)));
     y = round(random('unif',1, size(hand,1)));
+    while(hand(y,x) == 1)
+        x = round(random('unif',1, size(hand,2)));
+        y = round(random('unif',1, size(hand,1)));
+    end
     samples(i) = struct('pt',[x y], 'pre',[]);
 end
 %[hand, out] = hasCollision([1210 10], [1710 1040], hand);
@@ -33,14 +39,12 @@ for i = 1 : n
             end
         end
     end
+    clc
+    disp(i);
 end
 CM = sparse(Cmatrix);
 %%
 [dist, path, pred] = graphshortestpath(CM, 1, 2);
-imshow(hand);
-hold on
-prev = path(1);
 for i = 1 : length(path)
-    plot([samples(prev).pt(1) samples(path(i)).pt(1)], [samples(prev).pt(2) samples(path(i)).pt(2)], 'b');
-    prev = path(i);
+    pathPoints(i,:) = samples(path(i)).pt;
 end
