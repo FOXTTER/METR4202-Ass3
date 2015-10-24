@@ -1,6 +1,6 @@
 function [out ] = hasCollision(pt1, pt2, image)
     dp = max(abs(pt2(1)-pt1(1)), abs(pt2(2)-pt1(2)));
-    dp = dp*10;
+    dp = dp;
     delta_x = (pt2(1)-pt1(1));
     delta_y = (pt2(2)-pt1(2));
     dx = delta_x/dp;
