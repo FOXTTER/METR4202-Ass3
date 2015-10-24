@@ -7,10 +7,10 @@ mA_gear = 36/12;
 mB_gear = -36/12;
 mC_gear = -36/12;
 %Lengths of robot
-a2b = ; %length first joint A to second joint B
-b2c = ; %length second joint B to third joint C
-c2d = ; %length third joint C to tip (called D)
-c2ground = ; %height third joint C to surface
+a2b = 0.170; %length first joint A to second joint B
+b2c = 0.099; %length second joint B to third joint C
+c2d = 0.205; %length third joint C to tip (called D)
+c2ground = 0.177; %height third joint C to surface
 
 % T length
 a2d_new = norm([desired(1),desired(2)]);
