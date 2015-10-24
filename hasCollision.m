@@ -9,6 +9,10 @@ function [out ] = hasCollision(pt1, pt2, image)
     y1 = pt1(2);
     x2 = pt2(1);
     y2 = pt2(2);
+    %if (norm(pt2-pt1) > 0.15) 
+    %    out = true;
+    %    return
+    %end
     %hand = image;
     if (image(floor(min(y1,y2)):floor(max(y1,y2)),floor(min(x1,x2)):floor(max(x1,x2))) == 0)
         out = false;

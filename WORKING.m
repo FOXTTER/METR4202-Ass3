@@ -11,7 +11,7 @@ cy = cameraParams.PrincipalPoint(2);
 r = cameraParams.RotationMatrices(:,:,end);
 t = cameraParams.TranslationVectors(end,:);
 rot = [[0 1 0];[1 0 0];[0 0 -1]];
-framePos = [0 -200 -70];
+framePos = [50 -150 0];
 vidRGB = videoinput('kinectv2imaq', 1, 'RGB32_1920x1080');
 vidDepth = videoinput('kinectv2imaq', 2, 'MONO12_512x423');
 vidRGB.FramesPerTrigger = 1;
@@ -139,17 +139,16 @@ path = PRM(back, back);
 fprintf('Position hand(%d): %f, %f, %f)\n', i, realPos(1),realPos(2),realPos(3));
 hold on
 for i = 1 : length(path)
-    zm = double(depth(path(i,1), path(1,2)));
-    [px, py] = getP(path(i,1), path(1,2), cx, cy);
+    zm = double(depth(path(i,1), path(i,2)));
+    [px, py] = getP(path(i,1), path(i,2), cx, cy);
     xm = (px/f)*zm;
-    ym = (py/f)*zm;
-    rectangle('Position', st(k).BoundingBox );
-    plot(XY(1),XY(2),'o');   
-    hands = hands +1;
+    ym = (py/f)*zm;  
     fakePos = [xm, ym, zm];
     realPos = r*(fakePos-t)';
     realPos = rot*realPos + framePos' ;
-    fprintf('Position waypoint(%d): %f, %f, %f)\n', i, realPos(1),realPos(2),realPos(3));
+    realPath(i,:) = realPos/1000;
+    realPath(i,3) = 0;
+    fprintf('Position waypoint(%d): %f, %f, %f)\n', i, realPath(i,1),realPath(i,2),realPath(i,3));
 end
 
 for i = 2:length(path)

@@ -29,7 +29,7 @@ while(i < 15)
     pause(5)
 end
 %% FUCK SLET
-%trigger(vidRGB);
+%    trigger(vidRGB);
 %    trigger(vidDepth);
 %    RGB = getdata(vidRGB);
 %    RGB = flip(RGB,2);

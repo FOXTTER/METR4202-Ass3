@@ -1,10 +1,10 @@
 function [pathPoints] = PRM(imgRaw, raw)
 hand = raw;
-se = strel('disk',2);
-se2 = strel('disk',5);
+se = strel('disk',3);
+se2 = strel('disk',3);
 hand = imerode(hand,se);
 hand = imdilate(hand,se2);
-n = 200;
+n = 300;
 start = [1210 10];
 stop = [1710 1040];
 disp('Choose two points with mouse');
