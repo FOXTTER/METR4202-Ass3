@@ -15,7 +15,8 @@ start(vidDepth);
 %%
 i = 0;
 imageFileNames = {}
-while(i < 15)
+while(i < 14)
+    pause(5)
     trigger(vidRGB);
     trigger(vidDepth);
     RGB = getdata(vidRGB);
@@ -26,19 +27,20 @@ while(i < 15)
     i = i + 1;
     imageFileNames{i} = filename;
     fprintf('Got image %d \n', i);
-    pause(5)
 end
 %% FUCK SLET
-%    trigger(vidRGB);
-%    trigger(vidDepth);
-%    RGB = getdata(vidRGB);
-%    RGB = flip(RGB,2);
-%    imshow(RGB);
-%    filename = sprintf('cali/image_new%d.png', i);
-%    imwrite(RGB,filename);
-%    i = i + 1;
-%    imageFileNames{i} = filename;
-%    fprintf('Got image %d \n', i);
+fprintf('Place last image\n');
+pause(10)
+trigger(vidRGB);
+trigger(vidDepth);
+RGB = getdata(vidRGB);
+RGB = flip(RGB,2);
+imshow(RGB);
+filename = sprintf('cali/image_new%d.png', i);
+imwrite(RGB,filename);
+i = i + 1;
+imageFileNames{i} = filename;
+fprintf('Got image %d \n', i);
 %%
 % Detect checkerboards in images
 [imagePoints, boardSize, imagesUsed] = detectCheckerboardPoints(imageFileNames);
