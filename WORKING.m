@@ -60,7 +60,7 @@ while(1)
     img = rgb2hsv(imgRaw);
     newBack = int32(rgb2gray(imgRaw));
     % Create image mask from the color image
-    imgBin = img(:,:,1) < 100/360 | img(:,:,1) > 350/360;
+    imgBin = img(:,:,1) > 220/360;
 
     % Do the background subtraction
     back = abs((avg)-(newBack)) > 10;
@@ -75,9 +75,9 @@ while(1)
     %figure(1)
     %imshow(res);
     %title('Final filter')
-    %figure(2)
-    %imshow(imgBin);
-    %title('Color')
+    figure(2)
+    imshow(res);
+    title('Color')
     %foo = figure(3);
     %depth = double(depth)/max(max(depth));
     %imagesc(depth,[0 max(max(depth))]); colormap(gray);
