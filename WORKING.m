@@ -1,4 +1,4 @@
-%clear
+clear
 delete(imaqfind)
 detect_pen = 0;
 
@@ -6,6 +6,8 @@ detect_pen = 0;
 
 % Read the calibration parameters from the workspace
 % This should be exported using the calibration app, og loaded from a file
+cameraParams = load('cam.mat');
+cameraParams = cameraParams.cameraParams;
 f = cameraParams.FocalLength(1);
 cx = cameraParams.PrincipalPoint(1);
 cy = cameraParams.PrincipalPoint(2);
@@ -13,7 +15,7 @@ r = cameraParams.RotationMatrices(:,:,end);
 t = cameraParams.TranslationVectors(end,:);
 rot = [[0 1 0];[1 0 0];[0 0 -1]];
 % The fancy offset for the error in the y-direction
-framePos = [0 -160 0] + [0 0 0];
+framePos = [0 -160 0] + [0 50 0];
 vidRGB = videoinput('kinectv2imaq', 1, 'RGB32_1920x1080');
 vidDepth = videoinput('kinectv2imaq', 2, 'MONO12_512x423');
 vidRGB.FramesPerTrigger = 1;
@@ -126,7 +128,7 @@ fprintf('Position hand(%d): %f, %f, %f)\n', i, realPos(1),realPos(2),realPos(3))
 hold on
 % Plot the position of the waypoints
 for i = 1 : length(path)
-    zm = double(depth(path(i,1), path(i,2)));
+    zm = double(depth(round(path(i,2)), round(path(i,1))));
     [px, py] = getP(path(i,1), path(i,2), cx, cy);
     xm = (px/f)*zm;
     ym = (py/f)*zm;  
@@ -142,3 +144,6 @@ end
 for i = 2:length(path)
     plot([path(i-1,1) path(i,1)], [path(i-1,2) path(i,2)], 'b');
 end
+backup = realPath;
+
+realPath = expandPath(realPath);

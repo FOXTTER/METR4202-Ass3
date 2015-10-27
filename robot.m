@@ -1,8 +1,6 @@
 clc
 %clear
 %The angle the engines should move up before moving in Z direction
-safeAngle = 200;
-safeAngle = 0;
 [h] = setupNXT();
 mA = NXTMotor('A', 'Power', -10);
 mB = NXTMotor('B', 'Power', -10);
@@ -10,11 +8,11 @@ mC = NXTMotor('C', 'Power', -10);
 mA.SpeedRegulation = true;
 mB.SpeedRegulation = true;
 mC.SpeedRegulation = true;
-M = importdata('coords.txt'); % If you want to read positions from file
 disp('Put robot arm in desired position and press enter')
 pause
 mA.Stop('Brake');
 mB.Stop('Brake');
+
 mC.Stop('Brake');
 disp('Press enter to start')
 pause
@@ -28,7 +26,13 @@ enginePowerB = -15;
 enginePowerC = 30;
 i = 1;
 mB.ResetPosition();
-%M = realPath; %If you want to read positions from motionplanning
+% If you want to read positions from motionplanning
+%M = realPath; 
+% safeAngle = 0;
+% If you want to read positions from file
+M = importdata('coords.txt'); 
+%M = expandPath(M);
+safeAngle = 200;
 while(i <= size(M,1))
     fprintf('Point: %d\n',i);
     disp(M(i,:,:))

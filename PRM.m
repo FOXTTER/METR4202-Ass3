@@ -1,7 +1,7 @@
 function [pathPoints] = PRM(imgRaw, raw)
 hand = raw;
 se = strel('disk',3);
-se2 = strel('disk',3);
+se2 = strel('disk',10);
 hand = imerode(hand,se);
 hand = imdilate(hand,se2);
 n = 300;
