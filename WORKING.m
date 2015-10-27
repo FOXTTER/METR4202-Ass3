@@ -1,6 +1,6 @@
 clear
 delete(imaqfind)
-detect_pen = 0;
+task = 3;
 
 %%
 
@@ -62,7 +62,7 @@ while(1)
     img = rgb2hsv(imgRaw);
     newBack = int32(rgb2gray(imgRaw));
     % Create image mask from the color image
-    imgBin = img(:,:,1) > 220/360;
+    imgBin = img(:,:,1) < 50/360;
 
     % Do the background subtraction
     back = abs((avg)-(newBack)) > 10;
@@ -122,6 +122,9 @@ while(1)
     end
 end
 close all
+if (task == 3)
+    return;
+end
 % Calculate the PRM for motion planning
 path = PRM(back, back);
 fprintf('Position hand(%d): %f, %f, %f)\n', i, realPos(1),realPos(2),realPos(3));
