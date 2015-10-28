@@ -1,6 +1,6 @@
 clear
 delete(imaqfind)
-task = 3;
+task = 5;
 
 %%
 
@@ -44,6 +44,7 @@ avg = flip(avg,2);
 avg = int32(rgb2gray(avg));
 % Element for dilation and erotion
 se = strel('disk',3);
+realPos = [0 0 0];
 while(1)
     trigger(vidRGB);
     trigger(vidDepth);
@@ -124,9 +125,14 @@ end
 close all
 if (task == 3)
     return;
+elseif (task == 1)
+    path = PRM(back, back);
+elseif (task == 4 || task == 5)
+    imshow(imgRaw);
+    [x, y] = getpts;
+    path = [x y];
 end
 % Calculate the PRM for motion planning
-path = PRM(back, back);
 fprintf('Position hand(%d): %f, %f, %f)\n', i, realPos(1),realPos(2),realPos(3));
 hold on
 % Plot the position of the waypoints
@@ -139,7 +145,9 @@ for i = 1 : length(path)
     realPos = r*(fakePos-t)';
     realPos = rot*realPos + framePos' ;
     realPath(i,:) = realPos/1000;
-    realPath(i,3) = 0;
+    if(task == 1)
+        realPath(i,3) = 0;
+    end
     fprintf('Position waypoint(%d): %f, %f, %f)\n', i, realPath(i,1),realPath(i,2),realPath(i,3));
 end
 % The real path parameter is the position waypoints we use for importing
@@ -148,5 +156,21 @@ for i = 2:length(path)
     plot([path(i-1,1) path(i,1)], [path(i-1,2) path(i,2)], 'b');
 end
 backup = realPath;
+if(task == 5) 
+    i = 3;
+    path4 = realPath(1,:);
+    path4 = [path4;realPath(2,:)];
+    while(i <= length(realPath))
+        path4 = [path4; path4(end,:) + [0 0 0.07]];
+        path4 = [path4; realPath(i,:)+ [0 0 0.07]];
+        path4 = [path4; realPath(i,:)];
+        i = i + 1;
+        path4 = [path4; realPath(i,:)];
+        i = i + 1;
+    end
+    
+end
 
-realPath = expandPath(realPath);
+if(task == 1)
+    realPath = expandPath(realPath);
+end
