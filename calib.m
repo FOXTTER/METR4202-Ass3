@@ -16,11 +16,12 @@ start(vidDepth);
 i = 0;
 imageFileNames = {}
 while(i < 14)
-    pause(5)
+    pause
     trigger(vidRGB);
     trigger(vidDepth);
     RGB = getdata(vidRGB);
     RGB = flip(RGB,2);
+    hf = figure(1)
     imshow(RGB);
     filename = sprintf('cali/image_new%d.png', i);
     imwrite(RGB,filename);
@@ -30,7 +31,7 @@ while(i < 14)
 end
 %% FUCK SLET
 fprintf('Place last image\n');
-pause(10)
+pause
 trigger(vidRGB);
 trigger(vidDepth);
 RGB = getdata(vidRGB);
@@ -71,4 +72,5 @@ undistortedImage = undistortImage(originalImage, cameraParams);
 % See additional examples of how to use the calibration data.  At the prompt type:
 % showdemo('MeasuringPlanarObjectsExample')
 % showdemo('SparseReconstructionExample')
+save('cam.mat', 'cameraParams');
 

@@ -19,7 +19,7 @@ mC.Stop('Brake');
 disp('Press enter to start')
 pause
 % Initial point
-current = [0.06 0.16 0.08]; % Initial point of tip
+current = [0.06 0.16 0.02]; % Initial point of tip
 alpha_error = 0;
 beta_error = 0;
 gamma_error = 0;
@@ -38,7 +38,7 @@ elseif (task == 2)
     safeAngle = 200;
     M(:,3) = M(:,3)+0.03;
 elseif (task == 3)
-    M(1,:) = realPos/1000 + [0 -0.02 -0.02]';
+    M(1,:) = realPos/1000 + [0 0 -0.02]';
     M(1,3) = -0.01;
     M(2,:) = M(1,:) + [0 0 0.1];
     %M(2,:) = M(1,:) + [0 -0.02 0];
@@ -74,3 +74,4 @@ while(i <= size(M,1))
         i = mod(i,length(M(:,1)))+1;
     end
 end
+setupNXT();
