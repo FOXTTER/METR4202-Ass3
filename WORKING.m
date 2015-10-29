@@ -1,9 +1,9 @@
 clear
 delete(imaqfind)
 task = 5;
+%%%%%%%%%%%%%%%%%%%%%
 
 %%
-
 % Read the calibration parameters from the workspace
 % This should be exported using the calibration app, og loaded from a file
 cameraParams = load('cam.mat');
@@ -14,7 +14,6 @@ cy = cameraParams.PrincipalPoint(2);
 r = cameraParams.RotationMatrices(:,:,end);
 t = cameraParams.TranslationVectors(end,:);
 rot = [[0 1 0];[1 0 0];[0 0 -1]];
-% The fancy offset for the error in the y-direction
 framePos = [0 -160 0] + [0 50 0];
 vidRGB = videoinput('kinectv2imaq', 1, 'RGB32_1920x1080');
 vidDepth = videoinput('kinectv2imaq', 2, 'MONO12_512x423');
@@ -63,7 +62,7 @@ while(1)
     img = rgb2hsv(imgRaw);
     newBack = int32(rgb2gray(imgRaw));
     % Create image mask from the color image
-    imgBin = img(:,:,1) < 50/360;
+    imgBin = img(:,:,1) < 50/360 & img(:,:, 2) < 0.5;
 
     % Do the background subtraction
     back = abs((avg)-(newBack)) > 10;
@@ -78,13 +77,14 @@ while(1)
     %figure(1)
     %imshow(res);
     %title('Final filter')
-    figure(2)
-    imshow(res);
-    title('Color')
+    %figure(2)
+    %imshow(res);
+    %title('Color')
     %foo = figure(3);
     %depth = double(depth)/max(max(depth));
     %imagesc(depth,[0 max(max(depth))]); colormap(gray);
-    %imshow(depth);
+    %figure(3)
+    %imshow(back);
     %title('Background')
     hf = figure(4);
     key = get(hf,'CurrentCharacter');
@@ -122,7 +122,11 @@ while(1)
         end
     end
 end
+if (task == 2)
+    return
+end
 close all
+
 if (task == 3)
     return;
 elseif (task == 1)

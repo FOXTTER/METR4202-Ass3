@@ -1,3 +1,4 @@
+
 delete(imaqfind)
 close all
 clear
@@ -29,11 +30,12 @@ while(i < 14)
     imageFileNames{i} = filename;
     fprintf('Got image %d \n', i);
 end
-%% FUCK SLET
+%% 
 fprintf('Place last image\n');
 pause
 trigger(vidRGB);
 trigger(vidDepth);
+
 RGB = getdata(vidRGB);
 RGB = flip(RGB,2);
 imshow(RGB);
@@ -72,5 +74,6 @@ undistortedImage = undistortImage(originalImage, cameraParams);
 % See additional examples of how to use the calibration data.  At the prompt type:
 % showdemo('MeasuringPlanarObjectsExample')
 % showdemo('SparseReconstructionExample')
+%%
 save('cam.mat', 'cameraParams');
 
