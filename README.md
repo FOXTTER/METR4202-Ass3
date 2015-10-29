@@ -7,8 +7,8 @@ Johannes Feiler
 Christian Witting   
    
 Method to run it is
-For calibration
-	calib.m
+For calibration   
+	calib.m   
 Afterwards for running   
 	WORKING.m   
 	robot.m   
