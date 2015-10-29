@@ -6,7 +6,7 @@ Andi Obermeier
 Johannes Feiler   
 Christian Witting   
    
-Method to run it is
+Method to run it is   
 For calibration   
 	calib.m   
 Afterwards for running   
